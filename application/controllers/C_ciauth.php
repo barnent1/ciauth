@@ -34,17 +34,20 @@ class C_ciauth extends CI_Controller {
     public function __construct() {
         parent::__construct();
 
-        $this->load->helper('form');
-        $this->load->library('ciauth');
+        $this->load->helper('form', 'url');
+        $this->load->library('ciauth', 'form_validation');
+        
+        if(!$this->ciauth->is_logged_in()){
+            $this->login();
+        }
     }
 
     /*
      * Function: login
      * Creates the login form to display
      */
-    
+
     public function login() {
-        
         $data = array();
         $login_form = form_open('', 'class="ciauth_login_form" id="ciauth_login_form"');
 
@@ -55,10 +58,10 @@ class C_ciauth extends CI_Controller {
             'class' => 'form_field',
             'size' => '90'
         );
-
-        $login_form .= form_label('Username or Email: ', 'loginvalue');
+        $login_form .= form_error('login_value');
+        $login_form .= form_label('Username or Email: ', 'login_value');
         $login_form .= form_input($data);
-        
+
         # password field
         $options = array(
             'name' => 'password',
@@ -66,15 +69,31 @@ class C_ciauth extends CI_Controller {
             'class' => 'form_field',
             'size' => '20'
         );
-        
+
+        $login_form .= form_error('password');
         $login_form .= form_label('Password: ', 'password');
         $login_form .= form_password($data);
-        
+
         $login_form .= form_submit('submit', 'Login');
         $login_form .= form_close();
+
+        $this->form_validation->set_rules('email', 'Email', 'required');
+        $this->form_validation->set_rules('username', 'Username', 'required');
+        $this->form_validation->set_rules('password', 'Password', 'required', array('required' => 'You must provide a %s.'));
         
-        $data['login_form'] = $login_form;
-        $this->load->view('v_login', $data);
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->load->view('v_login', $data);
+        } else {
+            if(!$this->ciauth->login($login_value, $password)){
+                $data['ciauth_error'] = "The username/email or password was not found";
+                $this->load->view('v_login', $data);
+            }else{
+                
+            }
+            
+        }
+        
     }
 
 }
