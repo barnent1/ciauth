@@ -65,16 +65,16 @@ class M_ciauth extends CI_model {
         $query = $this->db->get('ciauth_user_accounts');
 
         foreach ($query->result() as $row) {
-           $password_hash = $row->password;
-           $user_id = $row->user_id;
+            $password_hash = $row->password;
+            $user_id = $row->user_id;
         }
 
         /*
          * Compare the password hash and return false if not valid otherwise
          * update the last login and set the session.
          */
-        
-        if (!password_verify( $data['password'] , $password_hash )) {
+
+        if (!password_verify($data['password'], $password_hash)) {
             return false;
         } else {
 
@@ -90,6 +90,34 @@ class M_ciauth extends CI_model {
 
             return true;
         }
+    }
+
+    /*
+     * Function can_register
+     * This function checks to see if the username or email exists. Returns
+     * true if the results returns 0, otherwise it returns false
+     */
+    
+    public function can_register($email, $username) {
+        $this->db->where("username", $username);
+        $this->db->or_where("email", $email);
+        $this->db->from('ciauth_user_accounts');
+        $user_count = $this->db->count_all_results();
+        
+        if($user_count > 0){
+            return false;
+        }else{
+            return true;
+        }
+    }
+    
+    /*
+     * Function add_user_account
+     * This function adds a new user account to the database
+     */
+    
+    public function add_user_account($data){
+        $this->db->insert("ciauth_user_accounts", $data);
     }
 
 }

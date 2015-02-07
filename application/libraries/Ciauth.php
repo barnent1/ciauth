@@ -80,7 +80,7 @@ class Ciauth {
      * parameters are login_value and password. This function updates the
      * database with last login and sets the session.
      */
-    
+
     public function login($login_value, $password) {
 
         $data = array(
@@ -89,6 +89,50 @@ class Ciauth {
         );
 
         $this->CI->m_ciauth->login($data);
+    }
+
+    /*
+     * Function: logout
+     * This function simply unsets the session data.
+     */
+    
+    function logout() {
+        $this->CI->session->unset_userdata("user_id");
+    }
+
+    /*
+     * Function: register
+     * This function creates a user account by inserting data into the 
+     * ciauth_user_accounts table.
+     */
+    
+    function register($email, $username, $password) {
+
+        //ensure the email is unique
+        if ($this->check_user_exists($email, $username)) {
+            $data = array(
+                "username" => $username,
+                "email" => $email,
+                "password" => $password
+            );
+            
+            $this->CI->m_ciauth->add_user_account($data);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /*
+     * Function: check_user_exists
+     * Check to see if a user has regisitered already. If so then we return
+     * false otherwise we return true.
+     */
+    
+    function check_user_exists($email, $username) {
+        $user_exists = $this->CI->m_ciauth->can_register($email, $username);
+        return $user_exists;
     }
 
 }
