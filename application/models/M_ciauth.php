@@ -27,5 +27,69 @@ if (!defined('BASEPATH'))
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
+class M_ciauth extends CI_model {
+
+    public function __construct() {
+        parent::__construct();
+        $this->load->database();
+    }
+
+    /*
+     * Function: get_user_data
+     * This function  
+     */
+
+    public function get_user_data() {
+        $query = $this->db->get_where("ciauth_user_accounts", array("user_id" => $this->session->userdata("user_id")));
+        return $query->row();
+    }
+
+    /*
+     * Function: login
+     * This function checks if the user exists and the given password is correct.
+     * It then updates the last login and session.
+     */
+
+    public function login($data) {
+
+        /*
+         * First we get the hashed password to use to compare with the supplied
+         * password.
+         */
+
+        $this->db->select('user_id, password');
+        $this->db->where("username", $data["login_value"]);
+        $this->db->or_where("email", $data["login_value"]);
+        $query = $this->db->get('ciauth_user_accounts');
+
+        foreach ($query->result() as $row) {
+           $password_hash = $row->password;
+           $user_id = $row->user_id;
+        }
+
+        /*
+         * Compare the password hash and return false if not valid otherwise
+         * update the last login and set the session.
+         */
+        
+        if (!password_verify( $data['password'] , $password_hash )) {
+            return false;
+        } else {
+
+            $last_login = date("Y-m-d H-i-s");
+
+            $data = array(
+                "last_login" => $last_login
+            );
+
+            $this->db->update("ciauth_user_accounts", $data);
+
+            $this->session->set_userdata("user_id", $user_id);
+
+            return true;
+        }
+    }
+
+}

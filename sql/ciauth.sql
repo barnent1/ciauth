@@ -37,7 +37,7 @@ CREATE TABLE `ciauth_user_accounts` (
  `user_id` int(11) NOT NULL AUTO_INCREMENT,
  `email` varchar(50) NOT NULL,
  `username` varchar(40) NOT NULL,
- `password` varchar(40) NOT NULL,
+ `password` varchar(255) NOT NULL,
  `creation_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
  `last_login` timestamp NULL DEFAULT NULL,
  PRIMARY KEY (`user_id`)
