@@ -1,5 +1,4 @@
 <?php
-
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
@@ -27,5 +26,20 @@ if (!defined('BASEPATH'))
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
+?>
+<html>
+    <head>
+        <title>CIAUTH Login</title>
+    </head>
+    <body>
+        <div id="login_form">
+            <h1>Login</h1>
+            echo $login_form;
+        </div>
+    </body>
+</html>
+
+
+
 

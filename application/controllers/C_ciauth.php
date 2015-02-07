@@ -27,5 +27,54 @@ if (!defined('BASEPATH'))
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
+class C_ciauth extends CI_Controller {
+
+    public function __construct() {
+        parent::__construct();
+
+        $this->load->helper('form');
+        $this->load->library('ciauth');
+    }
+
+    /*
+     * Function: login
+     * Creates the login form to display
+     */
+    
+    public function login() {
+        
+        $data = array();
+        $login_form = form_open('', 'class="ciauth_login_form" id="ciauth_login_form"');
+
+        # login value field
+        $options = array(
+            'name' => 'login_value',
+            'id' => 'login_value',
+            'class' => 'form_field',
+            'size' => '90'
+        );
+
+        $login_form .= form_label('Username or Email: ', 'loginvalue');
+        $login_form .= form_input($data);
+        
+        # password field
+        $options = array(
+            'name' => 'password',
+            'id' => 'password',
+            'class' => 'form_field',
+            'size' => '20'
+        );
+        
+        $login_form .= form_label('Password: ', 'password');
+        $login_form .= form_password($data);
+        
+        $login_form .= form_submit('submit', 'Login');
+        $login_form .= form_close();
+        
+        $data['login_form'] = $login_form;
+        $this->load->view('v_login', $data);
+    }
+
+}
