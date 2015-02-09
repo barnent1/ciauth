@@ -41,7 +41,7 @@ CREATE TABLE `ciauth_user_accounts` (
  `creation_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
  `last_login` timestamp NULL DEFAULT NULL,
  PRIMARY KEY (`user_id`)
-)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- -----------------------------------------
 -- Table structure for `ciauth_user_profiles`
@@ -66,7 +66,7 @@ CREATE TABLE `ciauth_user_profiles` (
  `linkedin_url` varchar(90),
  `newsletter` char(1),
  PRIMARY KEY (`uprof_id`)
-)
+ ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------------------
 -- Table structure for `ciauth_user_groups`
@@ -77,7 +77,7 @@ CREATE TABLE `ciauth_user_groups` (
  `group_name` varchar(40) NOT NULL,
  `group_description` varchar(200) NOT NULL,
  PRIMARY KEY (`group_id`)
-)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- -------------------------------------------
 -- Table structure for `ciauth_user_privileges`
@@ -88,7 +88,7 @@ CREATE TABLE `ciauth_user_privileges` (
  `privilege_name` varchar(40) NOT NULL,
  `privilege_description` varchar(200) NOT NULL,
  PRIMARY KEY (`privilege_id`)
-)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- -------------------------------------------------
 -- Table structure for `ciauth_user_privileges_users`
@@ -99,7 +99,7 @@ CREATE TABLE `ciauth_user_privileges_users` (
  `upriv_privilege_id_fk` int(11) NOT NULL,
  `upriv_user_id_fk` int(11) NOT NULL,
  PRIMARY KEY (`upriv_id`)
-)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- -------------------------------------------------
 -- Table structure for `ciauth_user_privileges_groups`
@@ -110,4 +110,4 @@ CREATE TABLE `ciauth_user_privileges_groups` (
  `upriv_privilege_id_fk` int(11) NOT NULL,
  `upriv_group_id_fk` int(11) NOT NULL,
  PRIMARY KEY (`upriv_id`)
-)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
