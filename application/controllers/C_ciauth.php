@@ -33,13 +33,18 @@ class C_ciauth extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
+       
 
-        $this->load->helper('form', 'url');
-        $this->load->library('ciauth', 'form_validation');
+        $this->load->helper(array('form', 'url'));
+        $this->load->library(array('ciauth', 'form_validation'));
         
         if(!$this->ciauth->is_logged_in()){
             $this->login();
         }
+    }
+    
+    public function index(){
+       
     }
 
     /*
@@ -76,6 +81,8 @@ class C_ciauth extends CI_Controller {
 
         $login_form .= form_submit('submit', 'Login');
         $login_form .= form_close();
+        
+        $data['login_form'] = $login_form;
 
         $this->form_validation->set_rules('email', 'Email', 'required');
         $this->form_validation->set_rules('username', 'Username', 'required');
@@ -83,11 +90,86 @@ class C_ciauth extends CI_Controller {
         
 
         if ($this->form_validation->run() == FALSE) {
-            $this->load->view('v_login', $data);
+            $this->load->view('ciauth/v_login', $data);
         } else {
             if(!$this->ciauth->login($login_value, $password)){
                 $data['ciauth_error'] = "The username/email or password was not found";
-                $this->load->view('v_login', $data);
+                $this->load->view('ciauth/v_login', $data);
+            }else{
+                
+            }
+            
+        }
+        
+    }
+    
+    public function registration() {
+        $data = array();
+        $registration_form = form_open('', 'class="ciauth_registration_form" id="ciauth_registration_form"');
+
+        # email value field
+        $options = array(
+            'name' => 'email',
+            'id' => 'email',
+            'class' => 'form_field',
+            'size' => '90'
+        );
+        $registration_form .= form_error('email');
+        $registration_form .= form_label('Email: ', 'email');
+        $registration_form .= form_input($options);
+        
+        # username value field
+        $options = array(
+            'name' => 'username',
+            'id' => 'username',
+            'class' => 'form_field',
+            'size' => '90'
+        );
+        $registration_form .= form_error('username');
+        $registration_form .= form_label('Username: ', 'username');
+        $registration_form .= form_input($options);
+
+        # password field
+        $options = array(
+            'name' => 'password',
+            'id' => 'password',
+            'class' => 'form_field',
+            'size' => '20'
+        );
+
+        $registration_form .= form_error('password');
+        $registration_form .= form_label('Password: ', 'password');
+        $registration_form .= form_password($options);
+        
+        # conf password field
+        $options = array(
+            'name' => 'conf_password',
+            'id' => 'conf_password',
+            'class' => 'form_field',
+            'size' => '20'
+        );
+
+        $registration_form .= form_error('conf_password');
+        $registration_form .= form_label('Confirm Password: ', 'conf_password');
+        $registration_form .= form_password($options);
+
+        $registration_form .= form_submit('submit', 'Login');
+        $registration_form .= form_close();
+        
+        $data['registration_form'] = $registration_form;
+
+        $this->form_validation->set_rules('email', 'Email', 'required');
+        $this->form_validation->set_rules('username', 'Username', 'required');
+        $this->form_validation->set_rules('password', 'Password', 'required', array('required' => 'You must provide a %s.'));
+        $this->form_validation->set_rules('conf_password', 'Confirm Password', 'required', array('required' => 'You must provide a %s.'));
+        
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->load->view('ciauth/v_registration', $data);
+        } else {
+            if(!$this->ciauth->login($login_value, $password)){
+                $data['ciauth_error'] = "The username/email or password was not found";
+                $this->load->view('ciauth/v_registration', $data);
             }else{
                 
             }
