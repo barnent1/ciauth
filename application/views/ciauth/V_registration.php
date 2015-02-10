@@ -30,11 +30,11 @@ if (!defined('BASEPATH'))
 ?>
 <html>
     <head>
-        <title>CIAUTH Login</title>
+        <title>CIAUTH Registration</title>
     </head>
     <body>
-        <div id="login_form">
-            <h1>Login</h1>
+        <div id="registration_form">
+            <h1>Account Registration</h1>
             <?php if(!empty($ciauth_error)){ echo $ciauth_error; } ?>
             <?php echo $registration_form; ?>
         </div>
