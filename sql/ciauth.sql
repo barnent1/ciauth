@@ -29,9 +29,11 @@
  * for the ciauth authentication library.
  */
 
--- -----------------------------------------
--- Table structure for `ciauth_user_accounts`
--- -----------------------------------------
+/* 
+ * ciauth_user_accounts table 
+ * This table holds the user accounts
+ */
+
 DROP TABLE IF EXISTS `ciauth_user_accounts`;
 CREATE TABLE `ciauth_user_accounts` (
  `user_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -43,9 +45,11 @@ CREATE TABLE `ciauth_user_accounts` (
  PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- -----------------------------------------
--- Table structure for `ciauth_user_profiles`
--- -----------------------------------------
+/* 
+ * ciauth_user_profiles table 
+ * This table holds the user profiles
+ */
+
 DROP TABLE IF EXISTS `ciauth_user_profiles`;
 CREATE TABLE `ciauth_user_profiles` (
  `uprof_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -66,11 +70,13 @@ CREATE TABLE `ciauth_user_profiles` (
  `linkedin_url` varchar(90),
  `newsletter` char(1),
  PRIMARY KEY (`uprof_id`)
- ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- ----------------------------------------
--- Table structure for `ciauth_user_groups`
--- ----------------------------------------
+/* 
+ * ciauth_user_groups table 
+ * This table holds the user groups
+ */
+
 DROP TABLE IF EXISTS `ciauth_user_groups`;
 CREATE TABLE `ciauth_user_groups` (
  `group_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -79,9 +85,11 @@ CREATE TABLE `ciauth_user_groups` (
  PRIMARY KEY (`group_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- -------------------------------------------
--- Table structure for `ciauth_user_privileges`
--- -------------------------------------------
+/* 
+ * ciauth_user_privileges table 
+ * This table holds the user privileges
+ */
+
 DROP TABLE IF EXISTS `ciauth_user_privileges`;
 CREATE TABLE `ciauth_user_privileges` (
  `privilege_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -90,9 +98,11 @@ CREATE TABLE `ciauth_user_privileges` (
  PRIMARY KEY (`privilege_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- -------------------------------------------------
--- Table structure for `ciauth_user_privileges_users`
--- -------------------------------------------------
+/* 
+ * ciauth_user_privileges_users table 
+ * This table has records that tie the user to a privilege.
+ */
+
 DROP TABLE IF EXISTS `ciauth_user_privileges_users`;
 CREATE TABLE `ciauth_user_privileges_users` (
  `upriv_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -101,9 +111,11 @@ CREATE TABLE `ciauth_user_privileges_users` (
  PRIMARY KEY (`upriv_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- -------------------------------------------------
--- Table structure for `ciauth_user_privileges_groups`
--- -------------------------------------------------
+/* 
+ * ciauth_user_privileges_groups table 
+ * This table ties a user group to a privelege.
+ */
+
 DROP TABLE IF EXISTS `ciauth_user_privileges_groups`;
 CREATE TABLE `ciauth_user_privileges_groups` (
  `upriv_id` int(11) NOT NULL AUTO_INCREMENT,

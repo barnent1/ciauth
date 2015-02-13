@@ -42,6 +42,7 @@ class C_ciauth extends CI_Controller {
         if (!$this->ciauth->is_logged_in()) {
             $this->login();
         }
+        echo "Redirect to the location you want to be.";
     }
 
     /*
@@ -93,19 +94,19 @@ class C_ciauth extends CI_Controller {
 
         $data['login_form'] = $login_form;
 
-        $this->form_validation->set_rules('email', 'Email', 'required');
-        $this->form_validation->set_rules('username', 'Username', 'required');
+        $this->form_validation->set_rules('login_value', 'Username or Email', 'required');
         $this->form_validation->set_rules('password', 'Password', 'required', array('required' => 'You must provide a %s.'));
-
 
         if ($this->form_validation->run() == FALSE) {
             $this->load->view('ciauth/v_login', $data);
         } else {
+            $login_value = $this->input->post('login_value');
+            $password = $this->input->post('password');
             if (!$this->ciauth->login($login_value, $password)) {
                 $data['ciauth_error'] = "The username/email or password was not found";
                 $this->load->view('ciauth/v_login', $data);
             } else {
-                
+                redirect('c_ciauth/index/');
             }
         }
     }
@@ -160,7 +161,14 @@ class C_ciauth extends CI_Controller {
         $registration_form .= form_label('Confirm Password: ', 'conf_password');
         $registration_form .= form_password($options);
 
-        $registration_form .= form_submit('submit', 'Login');
+        $options = array(
+            'name' => 'submit',
+            'id' => 'button',
+            'value' => 'Register',
+            'class' => 'button'
+        );
+
+        $registration_form .= form_submit($options);
         $registration_form .= form_close();
 
         $data['registration_form'] = $registration_form;
@@ -168,17 +176,20 @@ class C_ciauth extends CI_Controller {
         $this->form_validation->set_rules('email', 'Email', 'required');
         $this->form_validation->set_rules('username', 'Username', 'required');
         $this->form_validation->set_rules('password', 'Password', 'required', array('required' => 'You must provide a %s.'));
-        $this->form_validation->set_rules('conf_password', 'Confirm Password', 'required', array('required' => 'You must provide a %s.'));
-
+        $this->form_validation->set_rules('conf_password', 'Password Confirmation', 'required|matches[password]');
 
         if ($this->form_validation->run() == FALSE) {
             $this->load->view('ciauth/v_registration', $data);
         } else {
-            if (!$this->ciauth->login($login_value, $password)) {
+            $email = $this->input->post('email');
+            $username = $this->input->post('username');
+            $password = $this->input->post('password');
+            
+            if (!$this->ciauth->register($email, $username, $password)) {
                 $data['ciauth_error'] = "The username/email or password was not found";
                 $this->load->view('ciauth/v_registration', $data);
             } else {
-                
+                redirect('c_ciauth/login');
             }
         }
     }
