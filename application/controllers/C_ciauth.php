@@ -41,8 +41,9 @@ class C_ciauth extends CI_Controller {
     public function index() {
         if (!$this->ciauth->is_logged_in()) {
             $this->login();
+        } else {
+            echo "Redirect to the location you want to be.";
         }
-        echo "Redirect to the location you want to be.";
     }
 
     /*
@@ -52,45 +53,7 @@ class C_ciauth extends CI_Controller {
 
     public function login() {
         $data = array();
-        $login_form = form_open('', 'class="ciauth_login_form" id="ciauth_login_form"');
-
-        # login value field
-        $options = array(
-            'name' => 'login_value',
-            'id' => 'login_value',
-            'class' => 'form_field',
-            'size' => '60'
-        );
-        
-        $login_form .= "<p>";
-        $login_form .= form_error('login_value');
-        $login_form .= form_label('Username or Email: ', 'login_value');
-        $login_form .= form_input($options);
-        $login_form .= "</p>";
-
-        # password field
-        $options = array(
-            'name' => 'password',
-            'id' => 'password',
-            'class' => 'form_field',
-            'size' => '20'
-        );
-
-        $login_form .= "<p>";
-        $login_form .= form_error('password');
-        $login_form .= form_label('Password: ', 'password');
-        $login_form .= form_password($options);
-        $login_form .= "</p>";
-        
-        $options = array(
-            'name' => 'submit',
-            'id' => 'button',
-            'value' => 'Login',
-            'class' => 'button'
-        );
-
-        $login_form .= form_submit($options);
-        $login_form .= form_close();
+        $login_form = $this->ciauth->get_login_form();
 
         $data['login_form'] = $login_form;
 
@@ -98,96 +61,221 @@ class C_ciauth extends CI_Controller {
         $this->form_validation->set_rules('password', 'Password', 'required', array('required' => 'You must provide a %s.'));
 
         if ($this->form_validation->run() == FALSE) {
-            $this->load->view('ciauth/v_login', $data);
+            $this->load->view('ciauth/V_login', $data);
         } else {
             $login_value = $this->input->post('login_value');
-            $password = $this->input->post('password');
-            if (!$this->ciauth->login($login_value, $password)) {
+            $password = $this->input->post('keep_logged_in');
+            $remember_me = $this->input->post('');
+            if (!$this->ciauth->login($login_value, $password, $remember_me)) {
                 $data['ciauth_error'] = "The username/email or password was not found";
-                $this->load->view('ciauth/v_login', $data);
+                $this->load->view('ciauth/V_login', $data);
             } else {
                 redirect('c_ciauth/index/');
             }
         }
     }
 
+    /*
+     * Function: forgot_password
+     * Send a email to the users email so that they can reset there password
+     */
+
+    function forgot_password() {
+        $this->load->helper('string');
+        $this->load->library('form_validation');
+        $this->load->model('M_ciauth');
+        $this->form_validation->set_rules('email', 'Email Address', 'required|valid_email|callback_check_email');
+        if ($this->form_validation->run() == FALSE) {
+            $meta_description = "Deep Swamp | Forgot Passwrod";
+            $meta_author = "Glen Barnhardt | Deliver Media";
+            $data = array();
+            $data['title'] = "Deep Swamp | Forgot Password";
+            $data['meta_description'] = $meta_description;
+            $data['meta_author'] = $meta_author;
+
+            /*
+             * Build the navigation
+             */
+            $nav = new ciauth_nav();
+            $nav->db_fields = array('id' => 'id', 'parent' => 'parent');
+
+            $nav_elements = $this->M_ciauth_nav->get_menus();
+            $nav_menu = $nav->walk($nav_elements, 2);
+
+            $data['error'] = validation_errors();
+            $data['nav_menu'] = $nav_menu;
+            $this->template->load('V_template', 'V_ds_forgot_password', $data);
+        } else {
+            $email = $this->input->post("email");
+
+            //send an email
+            $this->load->library('email');
+            $token = sha1(uniqid($email, true));
+            $reset_link = "https://www.deepswamp.com/password-reset/" . $token;
+
+
+            $this->email->set_newline("\r\n");
+            $this->email->from('noreply@deepswamp.com', 'Deep Swamp');
+            $this->email->to($email);
+            $this->email->subject('Deep Swamp Password Reset');
+            $message = "Please click on the link below to reset your Deep Swamp Password. If you did not initiate this reset please ignore this email and your password will remain the same.";
+            $message .= "\n\n" . $reset_link;
+            $message .="\n\n" . "Thank you very much";
+            $this->email->message($message);
+
+            if ($this->email->send()) {
+                $this->M_ciauth->store_token($email, $token);
+                $meta_description = "Deep Swamp | Forgot Passwrod";
+                $meta_author = "Glen Barnhardt | Deliver Media";
+                $data = array();
+                $data['title'] = "Deep Swamp | Forgot Password";
+                $data['meta_description'] = $meta_description;
+                $data['meta_author'] = $meta_author;
+
+                /*
+                 * Build the navigation
+                 */
+                $nav = new ciauth_nav();
+                $nav->db_fields = array('id' => 'id', 'parent' => 'parent');
+
+                $nav_elements = $this->M_ciauth_nav->get_menus();
+                $nav_menu = $nav->walk($nav_elements, 2);
+
+                $data['error'] = validation_errors();
+                $data['nav_menu'] = $nav_menu;
+                $data['content'] = "<h1>Please Check Your Email</h1>";
+                $this->template->load('V_template', 'V_ds_display_message', $data);
+            } else {
+                show_error($this->email->print_debugger());
+            }
+        }
+    }
+
+    /*
+     * Function: check_email
+     * Varifies that the email exists.
+     */
+
+    function check_email($email) {
+        $this->load->model("M_ciauth");
+        if (!$this->M_ciauth->check_email($email)) {
+            $this->form_validation->set_message('check_email', 'The %s does not exists in our database');
+            return FALSE;
+        }
+        return TRUE;
+    }
+
+    /*
+     * Function: check_email
+     * Varifies that the email exists.
+     */
+
+    function password_reset($token) {
+        $this->load->model("M_ciauth");
+        if ($tdata = $this->M_ciauth->get_token($token)) {
+
+            $meta_description = "Deep Swamp | Forgot Passwrod";
+            $meta_author = "Glen Barnhardt | Deliver Media";
+            $data = array();
+            $data['title'] = "Deep Swamp | Forgot Password";
+            $data['meta_description'] = $meta_description;
+            $data['meta_author'] = $meta_author;
+
+            /*
+             * Build the navigation
+             */
+            $nav = new ciauth_nav();
+            $nav->db_fields = array('id' => 'id', 'parent' => 'parent');
+
+            $nav_elements = $this->M_ciauth_nav->get_menus();
+            $nav_menu = $nav->walk($nav_elements, 2);
+
+            $data['error'] = validation_errors();
+            $data['nav_menu'] = $nav_menu;
+            $token_time = $tdata->tstamp;
+            $token_timeout = time() - (60 * 60 * 24);
+            if ($token_timeout < $token_time) {
+                $this->M_ciauth->temp_login($tdata);
+                $data['content'] = "<h1>You have been temporarily logged in please go to Account and change your password.</h1>";
+            } else {
+                $data['content'] = "<h1>Your token has expired please start the forgot password process again.</h1>";
+            }
+        } else {
+            $data['content'] = "<h1>This URL link appears to be invalid.</h1>";
+        }
+
+        $this->template->load('V_template', 'V_ds_display_message', $data);
+    }
+
+    /*
+     * Function: process_login_form_ajax
+     * Validates the data passed from the ajax based login form.
+     * Parameters: login_value, password, keep_logged_in
+     */
+
+    public function process_login_form_ajax() {
+        $login_value = $this->input->post('login_value');
+        $password = $this->input->post('password');
+        $keep_logged_in = $this->input->post('keep_logged_in');
+
+        if ($keep_logged_in == true) {
+            $rememberme = 'Y';
+        } else {
+            $rememberme = 'N';
+        }
+
+        $this->form_validation->set_rules('login_value', 'Username or Email', 'required');
+        $this->form_validation->set_rules('password', 'Password', 'required', array('required' => 'You must provide a %s.'));
+
+        if ($this->form_validation->run() == FALSE) {
+            $errors = array("status" => "false", "message" => "You must enter a login name and password.");
+            $return = json_encode($errors);
+        } else {
+            if (!$this->ciauth->login($login_value, $password, $rememberme)) {
+                $errors = array("status" => "false", "message" => "The username/email and password combination failed authentication.");
+                $return = json_encode($errors);
+            } else {
+                $success = array("status" => "true", "message" => "Success");
+                $return = json_encode($success);
+            }
+        }
+        echo $return;
+    }
+
     public function registration() {
         $data = array();
-        $registration_form = form_open('', 'class="ciauth_registration_form" id="ciauth_registration_form"');
-
-        # email value field
-        $options = array(
-            'name' => 'email',
-            'id' => 'email',
-            'class' => 'form_field',
-            'size' => '90'
-        );
-        $registration_form .= form_error('email');
-        $registration_form .= form_label('Email: ', 'email');
-        $registration_form .= form_input($options);
-
-        # username value field
-        $options = array(
-            'name' => 'username',
-            'id' => 'username',
-            'class' => 'form_field',
-            'size' => '90'
-        );
-        $registration_form .= form_error('username');
-        $registration_form .= form_label('Username: ', 'username');
-        $registration_form .= form_input($options);
-
-        # password field
-        $options = array(
-            'name' => 'password',
-            'id' => 'password',
-            'class' => 'form_field',
-            'size' => '20'
-        );
-
-        $registration_form .= form_error('password');
-        $registration_form .= form_label('Password: ', 'password');
-        $registration_form .= form_password($options);
-
-        # conf password field
-        $options = array(
-            'name' => 'conf_password',
-            'id' => 'conf_password',
-            'class' => 'form_field',
-            'size' => '20'
-        );
-
-        $registration_form .= form_error('conf_password');
-        $registration_form .= form_label('Confirm Password: ', 'conf_password');
-        $registration_form .= form_password($options);
-
-        $options = array(
-            'name' => 'submit',
-            'id' => 'button',
-            'value' => 'Register',
-            'class' => 'button'
-        );
-
-        $registration_form .= form_submit($options);
-        $registration_form .= form_close();
-
-        $data['registration_form'] = $registration_form;
-
+        $this->form_validation->set_rules('firstname', 'First Name', 'required');
+        $this->form_validation->set_rules('lastname', 'Last Name', 'required');
+        $this->form_validation->set_rules('address1', 'Address', 'required');
+        $this->form_validation->set_rules('address2', 'Apt, Suite, PO', '');
+        $this->form_validation->set_rules('city', 'City', 'required');
+        $this->form_validation->set_rules('state', 'State', 'required');
+        $this->form_validation->set_rules('zipcode', 'Zipcode', 'required');
         $this->form_validation->set_rules('email', 'Email', 'required');
         $this->form_validation->set_rules('username', 'Username', 'required');
         $this->form_validation->set_rules('password', 'Password', 'required', array('required' => 'You must provide a %s.'));
         $this->form_validation->set_rules('conf_password', 'Password Confirmation', 'required|matches[password]');
 
         if ($this->form_validation->run() == FALSE) {
-            $this->load->view('ciauth/v_registration', $data);
+            $data['registration_form'] = $this->ciauth->get_registration_form();
+            $this->load->view('ciauth/V_registration', $data);
         } else {
-            $email = $this->input->post('email');
-            $username = $this->input->post('username');
-            $password = $this->input->post('password');
-            
-            if (!$this->ciauth->register($email, $username, $password)) {
+            $query_data = array(
+                'firstname' => $this->input->post('firstname'),
+                'lastname' => $this->input->post('lastname'),
+                'address1' => $this->input->post('address1'),
+                'address2' => $this->input->post('address2'),
+                'city' => $this->input->post('city'),
+                'state' => $this->input->post('state'),
+                'zipcode' => $this->input->post('zipcode'),
+                'email' => $this->input->post('email'),
+                'username' => $this->input->post('username'),
+                'password' => $this->input->post('password')
+             );
+
+            if (!$this->ciauth->register($query_data)) {
                 $data['ciauth_error'] = "The username/email or password was not found";
-                $this->load->view('ciauth/v_registration', $data);
+                $this->load->view('ciauth/V_registration', $data);
             } else {
                 redirect('c_ciauth/login');
             }
