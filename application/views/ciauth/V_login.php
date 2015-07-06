@@ -31,7 +31,7 @@ if (!defined('BASEPATH'))
 <html>
     <head>
         <title>CIAUTH Login</title>
-        <link href="/css/ciauth.css" rel="stylesheet" type="text/css">
+        <link href="<?php echo site_url('/css/ciauth.css'); ?>" rel="stylesheet" type="text/css">
     </head>
     <body>
         <div class="form_container">
