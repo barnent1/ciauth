@@ -34,6 +34,7 @@ class M_ciauth extends CI_model {
     public function __construct() {
         parent::__construct();
         $this->load->database();
+        $this->load->library('ciauth');
     }
 
     /*
@@ -46,6 +47,11 @@ class M_ciauth extends CI_model {
         return $query->row();
     }
 
+    public function check_keep_logged_in($user_id) {
+        $query = $this->db->get_where("ciauth_user_accounts", array("user_id" => $user_id));
+        return $query->row();
+    }
+
     /*
      * Function: login
      * This function checks if the user exists and the given password is correct.
@@ -53,30 +59,75 @@ class M_ciauth extends CI_model {
      */
 
     public function login($data) {
-
         /*
          * First we get the hashed password to use to compare with the supplied
          * password.
          */
 
-        $this->db->select('user_id, password');
+        $this->db->select('user_id, password, admin');
         $this->db->where("username", $data["login_value"]);
         $this->db->or_where("email", $data["login_value"]);
         $query = $this->db->get('ciauth_user_accounts');
+        $result = $query->result();
 
-        foreach ($query->result() as $row) {
-            $password_hash = $row->password;
-            $user_id = $row->user_id;
+        if (!empty($result)) {
+
+            foreach ($result as $row) {
+                $password_hash = $row->password;
+                $user_id = $row->user_id;
+                $admin = $row->admin;
+            }
+
+            /*
+             * Compare the password hash and return false if not valid otherwise
+             * update the last login and set the session.
+             */
+
+            if (!password_verify($data['password'], $password_hash)) {
+                return false;
+            } else {
+
+                $last_login = date("Y-m-d H-i-s");
+
+                $data = array(
+                    "last_login" => $last_login,
+                    "remember_me" => $data["rememberme"]
+                );
+
+                $this->db->update("ciauth_user_accounts", $data);
+
+                $ipaddress = $this->input->ip_address();
+                $this->session->set_userdata("user_id", $user_id);
+                $this->session->set_userdata("admin", $admin);
+                $this->ciauth->set_ciauth_session($user_id, $ipaddress);
+
+                return true;
+            }
+        } else {
+            return false;
         }
+    }
 
+    public function temp_login($data) {
+        
         /*
-         * Compare the password hash and return false if not valid otherwise
-         * update the last login and set the session.
+         * First we get the hashed password to use to compare with the supplied
+         * password.
          */
 
-        if (!password_verify($data['password'], $password_hash)) {
-            return false;
-        } else {
+        $this->db->select('user_id, password, admin');
+        $this->db->where("email", $data->email);
+        $query = $this->db->get('ciauth_user_accounts');
+        $result = $query->result();
+
+        if (!empty($result)) {
+
+            foreach ($result as $row) {
+                $password_hash = $row->password;
+                $user_id = $row->user_id;
+                $admin = $row->admin;
+            }
+
 
             $last_login = date("Y-m-d H-i-s");
 
@@ -86,9 +137,69 @@ class M_ciauth extends CI_model {
 
             $this->db->update("ciauth_user_accounts", $data);
 
+            $ipaddress = $this->input->ip_address();
             $this->session->set_userdata("user_id", $user_id);
+            $this->session->set_userdata("admin", $admin);
+            $this->ciauth->set_ciauth_session($user_id, $ipaddress);
 
             return true;
+        } else {
+            return false;
+        }
+    }
+
+    /*
+     * Function check_email
+     * This function checks to see if the username or email exists. Returns
+     * true if the results returns 0, otherwise it returns false
+     */
+
+    public function check_email($email) {
+        $this->db->where("email", $email);
+        $this->db->from('ciauth_user_accounts');
+        $user_count = $this->db->count_all_results();
+
+        if ($user_count > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /*
+     * Function store_token
+     * This function is used for password resets and store a token for the 
+     * url sent in an email.
+     */
+
+    public function store_token($email, $token) {
+
+        $data = array(
+            'token' => $token,
+            'email' => $email,
+            'tstamp' => time()
+        );
+        $this->db->insert('ciauth_user_token', $data);
+    }
+
+    /*
+     * Function get_token
+     * This function is used for get the token and check for it's validity.
+     * returns the users email is valid false if not.
+     */
+
+    public function get_token($token) {
+        $this->db->where("token", $token);
+        $query = $this->db->get('ciauth_user_token');
+
+        $result = $query->result();
+
+        if (!empty($result)) {
+            $this->db->where("token", $token);
+            $this->db->delete('ciauth_user_token');
+            return $result[0];
+        } else {
+            return FALSE;
         }
     }
 
@@ -97,27 +208,49 @@ class M_ciauth extends CI_model {
      * This function checks to see if the username or email exists. Returns
      * true if the results returns 0, otherwise it returns false
      */
-    
+
     public function can_register($email, $username) {
         $this->db->where("username", $username);
         $this->db->or_where("email", $email);
         $this->db->from('ciauth_user_accounts');
         $user_count = $this->db->count_all_results();
-        
-        if($user_count > 0){
+
+        if ($user_count > 0) {
             return false;
-        }else{
+        } else {
             return true;
         }
     }
-    
+
     /*
      * Function add_user_account
      * This function adds a new user account to the database
      */
-    
-    public function add_user_account($data){
+
+    public function add_user_account($data) {
         $this->db->insert("ciauth_user_accounts", $data);
+    }
+
+    /*
+     * Function store_ciauth_session
+     * This function adds a ciauth session to the database. It also removes
+     * all other sessions for this user.
+     */
+
+    public function store_ciauth_session($user_id, $data) {
+        $this->db->delete('ciauth_sessions', array('user_id' => $user_id));
+        $this->db->insert("ciauth_sessions", $data);
+    }
+
+    public function get_session_from_cookie($data) {
+        $this->db->select('user_id, ip_address, data, rnd_key');
+        $this->db->where("data", $data);
+        $query = $this->db->get('ciauth_sessions');
+        $result = $query->result();
+
+        if (!empty($result)) {
+            return $result;
+        }
     }
 
 }
