@@ -123,3 +123,47 @@ CREATE TABLE `ciauth_user_privileges_groups` (
  `upriv_group_id_fk` int(11) NOT NULL,
  PRIMARY KEY (`upriv_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/* 
+ * ciauth_user_token table 
+ * This table holds a user token used by the ciauth library.
+ */
+
+DROP TABLE IF EXISTS `ciauth_user_token`;
+CREATE TABLE `ciauth_user_token` (
+  `token` varchar(90) NOT NULL,
+  `email` varchar(45) NOT NULL,
+  `tstamp` int(11) NOT NULL,
+  PRIMARY KEY (`token`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+/* 
+ * ciauth_sessions table 
+ * This table holds session information specific to ciauth.
+ */
+
+DROP TABLE IF EXISTS `ciauth_sessions`;
+CREATE TABLE `ciauth_sessions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `ip_address` varchar(45) DEFAULT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `data` longtext,
+  `rnd_key` longtext,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+/* 
+ * ciauth_navigation table 
+ * This table holds site navigation elements.
+ */
+
+DROP TABLE IF EXISTS `ciauth_navigation`;
+CREATE TABLE `ciauth_navigation` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(60) NOT NULL,
+  `anchor` varchar(60) NOT NULL,
+  `parent` bigint(20) DEFAULT NULL,
+  `permissions` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
