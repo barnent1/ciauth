@@ -5,8 +5,6 @@ application/cache/.htaccess
 
 application/cache/index.html
 
-application/config/autoload.php
-
 application/config/config.php
 
 application/config/constants.php
