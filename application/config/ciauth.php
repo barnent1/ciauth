@@ -29,3 +29,8 @@ if (!defined('BASEPATH'))
  * limitations under the License.
 */
 
+/*
+ * BASE_URL
+ * This is used to give the path to root of the system.
+ */
+$config['BASE_URL']= (!empty($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/';
