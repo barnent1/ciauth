@@ -70,7 +70,13 @@
         <!-- Google Maps API -->
         <script src="//maps.google.com/maps/api/js?sensor=true"></script>
         
+        <!-- jQuery Nested Sortable js for menu creation -->
+        <script src="/js/jquery.mjs.nestedSortable.js"></script>
+        
         <!-- Ciauth Demo js -->
         <script src="/js/ciauth_demo.js"></script>
+        
+        <!-- Ciauth Admin js -->
+        <script src="/js/ciauth_admin.js"></script>
     </body>
 </html>

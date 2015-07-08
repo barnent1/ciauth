@@ -3,14 +3,12 @@
 <div id="home" class="home">
     <div class="text-vcenter">
         <h1>CIAUTH DEMO</h1>
-        <h3>CodeIgniter Authentication, Navigation, Templating, and Datatables Library.</h3>
+        <h3>CodeIgniter Authentication, Navigation, Templating, and jQuery DataTables Library.</h3>
         <p>CIAUTH libraries use the Bootstrap CSS Styles See an example<br /> of Parallax scrolling
             By scrolling further down on this page.<br /><br />Click the Registration Button and register
             to gain<br /> access to the admin features of CIAUTH.</p><br /><br />
         <h4>Download CIAUTH</h4>
-        <button type="button" class="btn btn-default btn-lg">
-            <span class="glyphicon glyphicon-cloud-download" aria-hidden="true"></span>
-        </button>
+        <a href="https://github.com/barnent1/ciauth"><img src="http://www.ciauth.com/images/download.png" /></a>
     </div>
 </div>
 </div>
@@ -86,14 +84,15 @@
                         <h2 class="panel-title">Help Us Keep CIAUTH Up to Date and Free</h2>
                     </div>
                     <div class="panel-body lead" style='height: 290px;'>
-                        <p>So you like and use the CIAUTH Set of Libraries in your application? Why not help us keep our code up to date and free. Send us a donation.</p><br /><br /><center>
+                        <p>A lot of hard work and effort go into creating and supporting a software product.</p>
+                            <p>If you like and use CIAUTH help support it.</p>
+                            <p style="text-align: center; font-weight: bold;">Buy Us a cup of Coffee or more!</p><center>
                             <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
                                 <input type="hidden" name="cmd" value="_s-xclick">
                                 <input type="hidden" name="hosted_button_id" value="SE73HBGKD7JM8">
-                                <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                                <input type="image" src="http://www.ciauth.com/images/PayPal.png" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
                                 <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
                             </form></center>
-                        &nbsp;
                     </div>
                 </div>
             </div>
