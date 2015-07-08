@@ -39,11 +39,39 @@ class C_ciauth extends CI_Controller {
     }
 
     public function index() {
-        if (!$this->ciauth->is_logged_in()) {
-            $this->login();
-        } else {
-            echo "Redirect to the location you want to be.";
-        }
+
+
+        /*
+         * We can set the meta description, meta author, and title of each
+         * page using the varibles. This is to give SEO value to our pages.
+         */
+
+        $meta_description = 'Ciauth - Authorization, Navigation, and Template libraries for CodeIgniter.';
+        $meta_author = 'Glen Barnhardt, CEO Barnhardt Enterprises, Inc.';
+        $data = array();
+        $data['title'] = "Starter Template for Ciauth using Bootstrap";
+        $data['meta_description'] = $meta_description;
+        $data['meta_author'] = $meta_author;
+
+        /*
+         * Build the navigation
+         * We grab values from the database for our navigation. These can
+         * be changed in our admin interface under navigation.
+         */
+
+        $nav = new ciauth_nav();
+        $nav->db_fields = array('id' => 'id', 'parent' => 'parent');
+
+        $nav_elements = $this->M_ciauth_nav->get_menus();
+        $nav_menu = $nav->walk($nav_elements, 2);
+
+        $data['nav_menu'] = $nav_menu;
+
+        /*
+         * load our V_template and the ciauth basic 
+         */
+
+        $this->ciauth_template->load('V_template', 'V_ciauth_basic', $data);
     }
 
     /*
@@ -55,20 +83,53 @@ class C_ciauth extends CI_Controller {
         $data = array();
         $login_form = $this->ciauth->get_login_form();
 
+        /*
+         * We can set the meta description, meta author, and title of each
+         * page using the varibles. This is to give SEO value to our pages.
+         */
+
+        $meta_description = 'Ciauth - Authorization, Navigation, and Template libraries for CodeIgniter.';
+        $meta_author = 'Glen Barnhardt, CEO Barnhardt Enterprises, Inc.';
+        $data = array();
+        $data['title'] = "Ciauth Signup";
+        $data['meta_description'] = $meta_description;
+        $data['meta_author'] = $meta_author;
+
+        /*
+         * Build the navigation
+         * We grab values from the database for our navigation. These can
+         * be changed in our admin interface under navigation.
+         */
+
+        $nav = new ciauth_nav();
+        $nav->db_fields = array('id' => 'id', 'parent' => 'parent');
+
+        $nav_elements = $this->M_ciauth_nav->get_menus();
+        $nav_menu = $nav->walk($nav_elements, 2);
+
+        $data['nav_menu'] = $nav_menu;
         $data['login_form'] = $login_form;
 
         $this->form_validation->set_rules('login_value', 'Username or Email', 'required');
         $this->form_validation->set_rules('password', 'Password', 'required', array('required' => 'You must provide a %s.'));
 
         if ($this->form_validation->run() == FALSE) {
-            $this->load->view('ciauth/V_login', $data);
+            /*
+             * load our V_template and the ciauth/V_login 
+             */
+
+            $this->ciauth_template->load('V_template', 'ciauth/V_login', $data);
         } else {
             $login_value = $this->input->post('login_value');
             $password = $this->input->post('keep_logged_in');
             $remember_me = $this->input->post('');
             if (!$this->ciauth->login($login_value, $password, $remember_me)) {
                 $data['ciauth_error'] = "The username/email or password was not found";
-                $this->load->view('ciauth/V_login', $data);
+                /*
+                 * load our V_template and the ciauth basic 
+                 */
+
+                $this->ciauth_template->load('V_template', 'ciauth/V_login', $data);
             } else {
                 redirect('c_ciauth/index/');
             }
@@ -86,8 +147,8 @@ class C_ciauth extends CI_Controller {
         $this->load->model('M_ciauth');
         $this->form_validation->set_rules('email', 'Email Address', 'required|valid_email|callback_check_email');
         if ($this->form_validation->run() == FALSE) {
-            $meta_description = "Deep Swamp | Forgot Passwrod";
-            $meta_author = "Glen Barnhardt | Deliver Media";
+            $meta_description = "Deep Swamp | Forgot Password";
+            $meta_author = "Glen Barnhardt | Barnhardt Enterprises, Inc.";
             $data = array();
             $data['title'] = "Deep Swamp | Forgot Password";
             $data['meta_description'] = $meta_description;
@@ -271,7 +332,7 @@ class C_ciauth extends CI_Controller {
                 'email' => $this->input->post('email'),
                 'username' => $this->input->post('username'),
                 'password' => $this->input->post('password')
-             );
+            );
 
             if (!$this->ciauth->register($query_data)) {
                 $data['ciauth_error'] = "The username/email or password was not found";

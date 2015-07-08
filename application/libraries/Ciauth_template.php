@@ -3,9 +3,9 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 /*
- * Template Library
- * Created by Glen Barnhardt
- * Last Updated: Dec 10, 2014
+ * Ciauth Template Library
+ * Created by Glen Barnhardt | Barnhardt Enterprises, Inc.
+ * Last Updated: Tues Jul 7, 2015
  * Version: 1.0
  */
 

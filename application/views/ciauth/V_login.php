@@ -1,4 +1,5 @@
 <?php
+
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
@@ -28,20 +29,9 @@ if (!defined('BASEPATH'))
  * limitations under the License.
  */
 ?>
-<html>
-    <head>
-        <title>CIAUTH Login</title>
-        <link href="<?php echo site_url('/css/ciauth.css'); ?>" rel="stylesheet" type="text/css">
-    </head>
-    <body>
-        <div class="form_container">
-            <h1>Login</h1>
-            <?php if(!empty($ciauth_error)){ echo $ciauth_error; } ?>
-            <?php echo $login_form; ?>
-        </div>
-    </body>
-</html>
+<link href="/css/ciauth_signin.css" rel="stylesheet">
 
-
-
-
+<?php if (!empty($ciauth_error)) {
+    echo $ciauth_error;
+} ?>
+<?php echo $login_form; ?>

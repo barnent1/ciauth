@@ -110,38 +110,39 @@ class Ciauth {
 
     public function get_login_form() {
 
-        $login_form = form_open('');
+        $login_form = "<div class=\"container\">";
+        $attributes = array('class' => 'form-signin');
+        $login_form .= form_open('', $attributes);
+        $login_form .= "<h2 class=\"form-signin-heading\">Please sign in</h2>";
 
         # login value field
         $options = array(
             'name' => 'login_value',
-            'type' => 'name',
+            'type' => 'email',
             'id' => 'login_value',
-            'class' => 'form_field',
-            'size' => '30'
+            'class' => 'form-control',
+            'placeholder' => 'Username or Email Address',
+            'size' => '25'
         );
 
-
         $login_form .= form_error('login_value');
-        $login_form .= form_label('Username or Email: ', 'login_value');
         $login_form .= form_input($options);
 
         # password field
         $options = array(
             'name' => 'password',
             'id' => 'password',
-            'class' => 'form_field',
-            'size' => '20'
+            'class' => 'form-control',
+            'placeholder' => 'Password',
+            'size' => '25'
         );
 
         $login_form .= form_error('password');
-        $login_form .= form_label('Password: ', 'password');
         $login_form .= form_password($options);
-        $login_form .= "<p><a href='forgot_password'>Forgot your password?</a></p>";
 
         $login_form .= "<div id='message'></div>";
 
-        $login_form .= "<div id='lower'>";
+        $login_form .= "<div class='form-signin'>";
         $options = array(
             'name' => 'keep_logged_in',
             'id' => 'keep_logged_in',
@@ -149,18 +150,22 @@ class Ciauth {
             'checked' => TRUE,
         );
 
-        $login_form .= form_label('Keep me logged in: ', 'keep_logged_in');
         $login_form .= form_checkbox($options);
+        $login_form .= form_label('Remember Me: ', 'keep_logged_in');
+        $login_form .= "</div>";
 
         $options = array(
             'name' => 'submit',
             'id' => 'login_button',
-            'value' => 'Login',
-            'class' => 'login_button'
+            'class' => 'btn btn-lg btn-primary btn-block',
+            'value' => 'submit',
+            'type' => 'submit',
+            'content' => 'Sign In'
         );
 
-        $login_form .= form_submit($options);
+        $login_form .= form_button($options);
         $login_form .= form_close();
+        $login_form .= "<div class=\"form-signin\"><a href='forgot_password'>Forgot your password?</a> or <a href='register'>Register</a></div>";
         $login_form .= "</div>";
 
         return $login_form;
@@ -417,7 +422,7 @@ class Ciauth {
         $registration_form .= form_error('state');
         $registration_form .= form_label('State: ', 'state');
         $registration_form .= form_dropdown('state', $options, '', $extra);
-        
+
         # zipcode value field
         $options = array(
             'name' => 'zipcode',
