@@ -5,3 +5,14 @@ CIAUTH is an authentication, navigation, template, and datatables library for Co
 completely from the ground up using the latest PHP security functions and incorporates
 all of the new CodeIgniter capabilities including database functions using the
 QueryBuilder. 
+
+Installation:
+
+Download the zip file
+Copy the the contents of each folder to the corresponding folder. For example move the individual controllers from the controllers folder to your controllers folder. Do the same for libraries, config, views etc..
+
+use the sql script to create the neccessary tables. 
+
+Add items to the ciauth_nav table to use the nav component. 
+
+Look at the example views and demo controllers to see how it is used. Detailed Documentation is coming soon.
