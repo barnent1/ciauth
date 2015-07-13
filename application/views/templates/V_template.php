@@ -8,9 +8,18 @@
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
         <meta name="description" content="<?php echo $meta_description; ?>">
         <meta name="author" content="<?php echo $meta_author; ?>">
-        <link rel="icon" href="../../favicon.ico">
+        <link rel="icon" href="ciauth.ico">
 
         <title><?php echo $title; ?></title>
+        
+        <!-- Latest compiled and minified jQuery -->
+         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+        <!-- Latest compiled and minified jQuery UI -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+        
+        <!-- Latest compiled and minified SweetAlert -->
+        <script src="http://www.ciauth.com/js/sweetalert.min.js"></script>
 
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -20,6 +29,10 @@
 
         <!-- Optional jQuery UI smoothness styles -->
         <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+        
+        <!-- Ciauth Styles for demo screens -->
+        <link rel="stylesheet" href="http://www.ciauth.com/css/sweetalert.css">
+
 
         <!-- Ciauth Styles for demo screens -->
         <link rel="stylesheet" href="http://www.ciauth.com/css/ciauth_demo.css">
@@ -59,22 +72,12 @@
         <!-- Bootstrap core JavaScript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-
-        <!-- Latest compiled and minified jQuery UI -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-
+       
         <!-- Latest compiled and minified Bootstrap JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
         
-        <!-- Google Maps API -->
-        <script src="//maps.google.com/maps/api/js?sensor=true"></script>
-        
         <!-- jQuery Nested Sortable js for menu creation -->
         <script src="/js/jquery.mjs.nestedSortable.js"></script>
-        
-        <!-- Ciauth Demo js -->
-        <script src="/js/ciauth_demo.js"></script>
         
         <!-- Ciauth Admin js -->
         <script src="/js/ciauth_admin.js"></script>

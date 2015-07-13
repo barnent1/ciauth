@@ -41,7 +41,7 @@ class C_ciauth_admin extends CI_Controller {
          * load our V_template and the ciauth basic 
          */
 
-        $this->load->view('ciauth/admin/V_nav_admin', $data);
+        $this->ciauth_template->load('V_template','ciauth/admin/V_nav_admin', $data);
     }
     
 }

@@ -1,4 +1,11 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+<!-- Google Maps API -->
+<script src="//maps.google.com/maps/api/js?sensor=true"></script>
+
+<!-- Ciauth Demo js -->
+<script src="/js/ciauth_demo.js"></script>
+
+
 <!-- first section - Home -->
 <div id="home" class="home">
     <div class="text-vcenter">
@@ -85,8 +92,8 @@
                     </div>
                     <div class="panel-body lead" style='height: 290px;'>
                         <p>A lot of hard work and effort go into creating and supporting a software product.</p>
-                            <p>If you like and use CIAUTH help support it.</p>
-                            <p style="text-align: center; font-weight: bold;">Buy Us a cup of Coffee or more!</p><center>
+                        <p>If you like and use CIAUTH help support it.</p>
+                        <p style="text-align: center; font-weight: bold;">Buy Us a cup of Coffee or more!</p><center>
                             <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
                                 <input type="hidden" name="cmd" value="_s-xclick">
                                 <input type="hidden" name="hosted_button_id" value="SE73HBGKD7JM8">

@@ -27,19 +27,13 @@ if (!defined('BASEPATH'))
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-foreach ($nav_elements AS $element) {
-    
-}
 ?>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 
-<!-- Latest compiled and minified jQuery UI -->
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-<script src="http://www.ciauth.com/js/jquery.mjs.nestedSortable.js"></script>
-<script src="http://www.ciauth.com/js/ciauth_admin.js"></script>
 <style type="text/css">
+    body {
+        padding-top: 70px;
+    }
 
     a, a:visited {
         color: #4183C4;
@@ -150,22 +144,35 @@ foreach ($nav_elements AS $element) {
     dl {
         margin: 0;
     }
+    
+    #dialog-form {
+        display: none;
+    }
 
 </style>
-
 <div class="container">
-<a href="" id="add_menu_item">Add Menu Item</a>
-<a href="" id="save_menu_item">Save Menu</a>
+    <h3>CIAUTH DEMO | Admin</h3>
+    <p>
+        Drag and Drop to order and organize your menu items. Dragging to the right 
+        indents and creates parent child mennus. Click the Add Menu Item button 
+        to add a new item. Double-click on an item to set the name and properties.
+        Click on the save button to save your menu when your satisfied.
+    </p>
+</div>
 
-<ol class="sortable">
-    <li id="list_1"><div>Home</div></li>
-    <li id="list_2">
-        <div>About</div>
-        <ol>
-            <li id="list_3"><div>Support</div></li>
-            <li id="list_4"><div>Help</div></li>
-        </ol>
-    </li>
-    <li id="list_5"><div>More Information</div></li>
-</ol>
+<div class="container menu-drag">
+    <button type="button" id="add_menu_item" class="btn btn-primary">Add Menu Item</button>
+    <button type="button" id="save_menu_item" class="btn btn-primary">Save Menu</button>
+
+    <ol class="sortable">
+        <li id="list_1"><div>Home</div></li>
+        <li id="list_2">
+            <div>About</div>
+            <ol>
+                <li id="list_3"><div>Support</div></li>
+                <li id="list_4"><div>Help</div></li>
+            </ol>
+        </li>
+        <li id="list_5"><div>More Information</div></li>
+    </ol>
 </div>

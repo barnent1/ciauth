@@ -49,7 +49,7 @@ class C_ciauth extends CI_Controller {
         $meta_description = 'Ciauth - Authorization, Navigation, and Template libraries for CodeIgniter.';
         $meta_author = 'Glen Barnhardt, CEO Barnhardt Enterprises, Inc.';
         $data = array();
-        $data['title'] = "Starter Template for Ciauth using Bootstrap";
+        $data['title'] = "CIAUTH Demo Template";
         $data['meta_description'] = $meta_description;
         $data['meta_author'] = $meta_author;
 
