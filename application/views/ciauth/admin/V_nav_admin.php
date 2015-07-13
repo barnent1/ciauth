@@ -156,6 +156,8 @@ if (!defined('BASEPATH'))
         Drag and Drop to order and organize your menu items. Dragging to the right 
         indents and creates parent child mennus. Click the Add Menu Item button 
         to add a new item. Double-click on an item to set the name and properties.
+        You must include the | symbol as the delimiter for the menu name and anchor.
+        Example: Home | /home
         Click on the save button to save your menu when your satisfied.
     </p>
 </div>
@@ -165,14 +167,14 @@ if (!defined('BASEPATH'))
     <button type="button" id="save_menu_item" class="btn btn-primary">Save Menu</button>
 
     <ol class="sortable">
-        <li id="list_1"><div>Home</div></li>
+        <li id="list_1"><div>Home | /</div></li>
         <li id="list_2">
-            <div>About</div>
+            <div>About | /about</div>
             <ol>
-                <li id="list_3"><div>Support</div></li>
-                <li id="list_4"><div>Help</div></li>
+                <li id="list_3"><div>Support | /support</div></li>
+                <li id="list_4"><div>Help | /help</div></li>
             </ol>
         </li>
-        <li id="list_5"><div>More Information</div></li>
+        <li id="list_5"><div>More Information | /more_info</div></li>
     </ol>
 </div>

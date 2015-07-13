@@ -64,3 +64,4 @@ $route['register'] = 'C_ciauth/register';
  * Ciauth Admin Routes
  */
 $route['nav_admin'] = 'C_ciauth_admin/nav_admin';
+$route['update_nav_ajax'] = 'C_ciauth_admin/update_nav_ajax';

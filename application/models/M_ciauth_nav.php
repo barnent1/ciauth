@@ -46,7 +46,7 @@ class M_ciauth_nav extends CI_model {
             return false;
         }
     }
-    
+
     public function get_menus() {
         $sql = "SELECT * FROM `ciauth_navigation`";
         $query = $this->db->query($sql);
@@ -57,13 +57,25 @@ class M_ciauth_nav extends CI_model {
             return false;
         }
     }
-    
-    public function get_submenus($menu_name){
+
+    public function get_submenus($menu_name) {
         $sql = "SELECT * FROM `ciauth_navigation` WHERE `parent` = '" . $menu_name . "'";
         $query = $this->db->query($sql);
         if ($query->result()) {
             $result = $query->result();
             return $result;
+        } else {
+            return false;
+        }
+    }
+
+    public function update_menus($data) {
+        if ($this->db->empty_table('ciauth_navigation')) {
+            if (!$this->db->insert_batch('ciauth_navigation', $data)) {
+                return false;
+            }else{
+                return true;
+            }
         } else {
             return false;
         }

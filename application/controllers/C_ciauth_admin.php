@@ -44,5 +44,19 @@ class C_ciauth_admin extends CI_Controller {
         $this->ciauth_template->load('V_template','ciauth/admin/V_nav_admin', $data);
     }
     
+    public function update_nav_ajax(){
+        if($this->input->post('menu')){
+            $data = $this->input->post('menu');
+            if($this->M_ciauth_nav->update_menus($data)){
+                echo "SUCCESS";
+            }else{
+                echo "ERROR";
+            }
+        }else{
+            echo "ERROR";
+        }
+        
+    }
+    
 }
 
