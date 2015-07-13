@@ -172,14 +172,14 @@ class C_ciauth extends CI_Controller {
             //send an email
             $this->load->library('email');
             $token = sha1(uniqid($email, true));
-            $reset_link = "https://www.deepswamp.com/password-reset/" . $token;
+            $reset_link = "/password-reset/" . $token;
 
 
             $this->email->set_newline("\r\n");
-            $this->email->from('noreply@deepswamp.com', 'Deep Swamp');
+            $this->email->from('noreply@ciauth.com', 'CIAUTH');
             $this->email->to($email);
             $this->email->subject('Deep Swamp Password Reset');
-            $message = "Please click on the link below to reset your Deep Swamp Password. If you did not initiate this reset please ignore this email and your password will remain the same.";
+            $message = "Please click on the link below to reset your Password. If you did not initiate this reset please ignore this email and your password will remain the same.";
             $message .= "\n\n" . $reset_link;
             $message .="\n\n" . "Thank you very much";
             $this->email->message($message);
