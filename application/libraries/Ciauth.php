@@ -118,7 +118,7 @@ class Ciauth {
         # login value field
         $options = array(
             'name' => 'login_value',
-            'type' => 'email',
+            'type' => 'text',
             'id' => 'login_value',
             'class' => 'form-control',
             'placeholder' => 'Username or Email Address',

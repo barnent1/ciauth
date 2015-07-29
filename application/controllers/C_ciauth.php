@@ -33,7 +33,8 @@ class C_ciauth extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-
+        
+        define('SITE_PATH', $this->config->item('base_url'));
         $this->load->helper(array('form', 'url'));
         $this->load->library(array('ciauth', 'form_validation'));
     }
@@ -150,7 +151,7 @@ class C_ciauth extends CI_Controller {
             /*
              * load our V_template and the ciauth/V_login 
              */
-            echo "<br /><br /><br />here";
+            
             $this->ciauth_template->load('V_template', 'ciauth/V_login', $data);
         } else {
             $login_value = $this->input->post('login_value');
@@ -164,9 +165,19 @@ class C_ciauth extends CI_Controller {
 
                 $this->ciauth_template->load('V_template', 'ciauth/V_login', $data);
             } else {
-                redirect('c_ciauth/index/');
+                redirect(SITE_PATH);
             }
         }
+    }
+    
+    /*
+     * Function: logout
+     * Logs the current user out and removes the session.
+     */
+    
+    public function logout(){
+        $this->ciauth->logout();
+        redirect(SITE_PATH);
     }
 
     /*
@@ -232,7 +243,7 @@ class C_ciauth extends CI_Controller {
 
                 $this->ciauth_template->load('V_template', 'ciauth/V_registration', $data);
             } else {
-                redirect('c_ciauth/index/');
+                redirect(SITE_PATH . "/login");
             }
         }
     }
@@ -270,10 +281,10 @@ class C_ciauth extends CI_Controller {
         $this->load->model('M_ciauth');
         $this->form_validation->set_rules('email', 'Email Address', 'required|valid_email|callback_check_email');
         if ($this->form_validation->run() == FALSE) {
-            $meta_description = "Deep Swamp | Forgot Password";
+            $meta_description = "CIAUTH | Forgot Password";
             $meta_author = "Glen Barnhardt | Barnhardt Enterprises, Inc.";
             $data = array();
-            $data['title'] = "Deep Swamp | Forgot Password";
+            $data['title'] = "CIAUTH | Forgot Password";
             $data['meta_description'] = $meta_description;
             $data['meta_author'] = $meta_author;
 
@@ -301,7 +312,7 @@ class C_ciauth extends CI_Controller {
             $this->email->set_newline("\r\n");
             $this->email->from('noreply@ciauth.com', 'CIAUTH');
             $this->email->to($email);
-            $this->email->subject('Deep Swamp Password Reset');
+            $this->email->subject('CIAUTH Password Reset');
             $message = "Please click on the link below to reset your Password. If you did not initiate this reset please ignore this email and your password will remain the same.";
             $message .= "\n\n" . $reset_link;
             $message .="\n\n" . "Thank you very much";
@@ -309,10 +320,10 @@ class C_ciauth extends CI_Controller {
 
             if ($this->email->send()) {
                 $this->M_ciauth->store_token($email, $token);
-                $meta_description = "Deep Swamp | Forgot Passwrod";
-                $meta_author = "Glen Barnhardt | Deliver Media";
+                $meta_description = "CIAUTH | Forgot Passwrod";
+                $meta_author = "Glen Barnhardt | Barnhardt Enterprises, Inc.";
                 $data = array();
-                $data['title'] = "Deep Swamp | Forgot Password";
+                $data['title'] = "CIAUTH | Forgot Password";
                 $data['meta_description'] = $meta_description;
                 $data['meta_author'] = $meta_author;
 
@@ -358,10 +369,10 @@ class C_ciauth extends CI_Controller {
         $this->load->model("M_ciauth");
         if ($tdata = $this->M_ciauth->get_token($token)) {
 
-            $meta_description = "Deep Swamp | Forgot Passwrod";
-            $meta_author = "Glen Barnhardt | Deliver Media";
+            $meta_description = "CIAUTH | Forgot Passwrod";
+            $meta_author = "Glen Barnhardt | Barnhardt Enterprises, Inc.";
             $data = array();
-            $data['title'] = "Deep Swamp | Forgot Password";
+            $data['title'] = "CIAUTH | Forgot Password";
             $data['meta_description'] = $meta_description;
             $data['meta_author'] = $meta_author;
 
@@ -461,7 +472,7 @@ class C_ciauth extends CI_Controller {
                 $data['ciauth_error'] = "The username/email or password was not found";
                 $this->load->view('ciauth/V_registration', $data);
             } else {
-                redirect('c_ciauth/login');
+                redirect(SITE_PATH . "/login");
             }
         }
     }

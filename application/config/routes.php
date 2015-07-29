@@ -58,6 +58,7 @@ $route['translate_uri_dashes'] = FALSE;
  */
 
 $route['login'] = 'C_ciauth/login';
+$route['logout'] = 'C_ciauth/logout';
 $route['register'] = 'C_ciauth/register';
 $route['about'] = 'C_ciauth/about';
 
