@@ -60,7 +60,7 @@ $autoload['packages'] = array();
 |	$autoload['libraries'] = array('user_agent' => 'ua');
 */
 
-$autoload['libraries'] = array('Ciauth','Ciauth_datatables','Ciauth_nav','Ciauth_template');
+$autoload['libraries'] = array('Ciauth','Ciauth_datatables','Ciauth_nav','Ciauth_nav_admin','Ciauth_template');
 
 
 /*

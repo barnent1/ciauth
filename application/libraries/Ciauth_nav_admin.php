@@ -1,6 +1,6 @@
 <?php
 
-class Ciauth_nav {
+class Ciauth_nav_admin {
 
     public $db_fields;
     public $max_pages = 1;
@@ -8,32 +8,19 @@ class Ciauth_nav {
 
     public function start_lvl(&$output, $depth = 0, $args = array()) {
         $indent = str_repeat("\t", $depth);
-        if($this->has_children && $depth == 0){
-            $output .= "\n$indent<ul class=\"dropdown-menu multi-level\">\n";
-        }else if($this->has_children && $depth > 0){
-            $output .= "\n$indent<ul class=\"dropdown-menu\">\n";
-        }else{
-            $output .= "\n$indent<ul class=\"nav navbar-nav\">\n";
-        }
+        $output .= "\n$indent<ol class=\"sub-menu\">\n";
     }
 
     public function end_lvl(&$output, $depth = 0, $args = array()) {
         $indent = str_repeat("\t", $depth);
-        $output .= "$indent</ul>\n";
+        $output .= "$indent</ol>\n";
     }
 
     public function start_el(&$output, $item, $depth = 0, $args = array(), $id = 0) {
         $indent = ( $depth ) ? str_repeat("\t", $depth) : '';   
-        if($this->has_children && $depth == 0){
-            $output .= $indent . '<li>';
-            $output .= '<a href="' . $item->anchor . '" class="dropdown-toggle" data-toggle="dropdown">' . $item->name . ' <b class="caret"></b></a>';
-        }else if ($this->has_children && $depth > 0){
-            $output .= $indent . '<li class="dropdown-submenu">';
-            $output .= '<a href="' . $item->anchor . '" class="dropdown-toggle" data-toggle="dropdown">' . $item->name . '</a>';
-        }else{
-            $output .= $indent . '<li>';
-            $output .= '<a href="' . $item->anchor . '">' . $item->name . '</a>';
-        }
+        $output .= $indent . '<li id="' . $item->id . '">';
+        $output .= '<form action="" class="form-inline ui-sortable-handle"><div class="form-group"><input type="checkbox" value="' . $item->id . '"></div>';
+        $output .= '<div class="form-group" id="dd-menu-item-' . $item->id . '">' . $item->name . '</div><div class="form-group" id="dd-menu-anchor-' . $item->id . '">' . $item->anchor . '</div></form>';
     }
 
     public function end_el(&$output, $item, $depth = 0, $args = array()) {

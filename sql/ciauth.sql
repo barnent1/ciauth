@@ -161,6 +161,7 @@ CREATE TABLE `ciauth_sessions` (
 DROP TABLE IF EXISTS `ciauth_navigation`;
 CREATE TABLE `ciauth_navigation` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `order` bigint(20) NOT NULL,
   `name` varchar(60) NOT NULL,
   `anchor` varchar(60) NOT NULL,
   `parent` bigint(20) DEFAULT NULL,

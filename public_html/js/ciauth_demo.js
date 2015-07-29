@@ -1,4 +1,6 @@
 $(document).ready(function (){
+  //Bootstrap Smart Menu addon
+  $('#main-menu').smartmenus();
 
   // create a LatLng object containing the coordinate for the center of the map
   var latlng = new google.maps.LatLng(28.555272, -82.387871);

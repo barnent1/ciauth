@@ -144,37 +144,34 @@ if (!defined('BASEPATH'))
     dl {
         margin: 0;
     }
-    
+
     #dialog-form {
         display: none;
     }
 
 </style>
 <div class="container">
-    <h3>CIAUTH DEMO | Admin</h3>
-    <p>
-        Drag and Drop to order and organize your menu items. Dragging to the right 
-        indents and creates parent child mennus. Click the Add Menu Item button 
-        to add a new item. Double-click on an item to set the name and properties.
-        You must include the | symbol as the delimiter for the menu name and anchor.
-        Example: Home | /home
-        Click on the save button to save your menu when your satisfied.
-    </p>
-</div>
+    <h3>CIAUTH | Admin | Navigation Builder</h3>
 
-<div class="container menu-drag">
-    <button type="button" id="add_menu_item" class="btn btn-primary">Add Menu Item</button>
-    <button type="button" id="save_menu_item" class="btn btn-primary">Save Menu</button>
-
-    <ol class="sortable">
-        <li id="list_1"><div>Home | /</div></li>
-        <li id="list_2">
-            <div>About | /about</div>
-            <ol>
-                <li id="list_3"><div>Support | /support</div></li>
-                <li id="list_4"><div>Help | /help</div></li>
-            </ol>
-        </li>
-        <li id="list_5"><div>More Information | /more_info</div></li>
-    </ol>
+    <div class="container menu-drag">
+        <button type="button" id="add_menu_item" class="btn btn-primary">Add Menu Item</button>
+        <button type="button" id="save_menu_item" class="btn btn-primary">Save Menu</button>
+        <button type="button" id="delete_menu_items" class="btn btn-primary">Delete Menu Items</button>
+        <ol class="sortable">
+            <?php echo $nav_admin_menu; ?>
+        </ol>
+    </div>
+    <div class="row">
+        <div class="jumbotron">
+            <h3>How to Use:</h3>
+            <h4>Ordering Menu Items</h4>
+            <p>Drag and Drop to order and organize your menu items. Dragging to the right indents and creates parent child menus.</p> 
+            <h4>Adding Menu Items</h4>
+            <p>Click the Add Menu Item button to add a new item. Double-click on an item to set the name and anchor properties.</p>
+            <h4>Deleting Menu Items</h4>
+            <p>Click on a check-box to mark a menu item and it's children for deletion. It is best to re-arrange the menu so that items you don't want deleted are not in the children of any checked item.</p>
+            <h4>Saving the Menu</h4>
+            <p>Click on the save button to save your menu when your satisfied.</p>
+        </div>
+    </div>
 </div>

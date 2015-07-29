@@ -20,7 +20,7 @@
         
         <!-- Latest compiled and minified SweetAlert -->
         <script src="http://www.ciauth.com/js/sweetalert.min.js"></script>
-
+       
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
@@ -32,7 +32,9 @@
         
         <!-- Ciauth Styles for demo screens -->
         <link rel="stylesheet" href="http://www.ciauth.com/css/sweetalert.css">
-
+        
+        <!-- Smart menus Styles for demo screens -->
+        <link href='http://www.ciauth.com/css/sm-core-css.css' rel='stylesheet' type='text/css' />
 
         <!-- Ciauth Styles for demo screens -->
         <link rel="stylesheet" href="http://www.ciauth.com/css/ciauth_demo.css">
@@ -56,10 +58,10 @@
                     <a class="navbar-brand" href="#">CIAUTH</a>
                 </div>
                 <div id="navbar" class="collapse navbar-collapse">
-                    <ul class="nav navbar-nav">
+                    <ul id="main-menu" class="nav navbar-nav sm">
                         <?php echo $nav_menu ?>
                     </ul>
-                    <ul class="nav navbar-nav navbar-right">
+                    <ul id="main-menu" class="nav navbar-nav navbar-right">
                         <li><a href="login">Login</a></li>
                         <li><a href="register">Register</a></li>
                     </ul>

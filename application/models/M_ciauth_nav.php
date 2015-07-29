@@ -48,7 +48,7 @@ class M_ciauth_nav extends CI_model {
     }
 
     public function get_menus() {
-        $sql = "SELECT * FROM `ciauth_navigation`";
+        $sql = "SELECT * FROM `ciauth_navigation` ORDER BY `parent`, `order`";
         $query = $this->db->query($sql);
         if ($query->result()) {
             $result = $query->result();
@@ -70,7 +70,7 @@ class M_ciauth_nav extends CI_model {
     }
 
     public function update_menus($data) {
-        if ($this->db->empty_table('ciauth_navigation')) {
+        if ($this->db->truncate('ciauth_navigation')) {
             if (!$this->db->insert_batch('ciauth_navigation', $data)) {
                 return false;
             }else{
