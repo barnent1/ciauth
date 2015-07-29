@@ -1,5 +1,4 @@
 <?php
-
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
@@ -29,4 +28,23 @@ if (!defined('BASEPATH'))
  * limitations under the License.
  */
 ?>
-<h3>About</h3>
+<div class="container">
+    <h3>CIAUTH | About</h3>
+
+    <div class="row">
+        <div class="jumbotron">
+            <p>CIAUTH was developed by Glen Barnhardt in an attempt to create a set of CodeIgniter Libraries to make application development easier.</p>
+            <p>The project started when CodeIgniter 3.0 was released and none of the current authentication libraries were updated. Rather than just fork a copy and change the code to update it there was a need for a new built from the ground up library.</p>
+            <p>As more and more applications were developed using CodeIgniter additional needs arose that prompted the addition of a template, navigation, and then jQuery DataTables library.</p>
+            <p>Some of the great features of these libraries are:</p>
+            <ul class="list-group">
+                <li class="list-group-item">A Menu Driven Administration Section</li>
+                <li class="list-group-item">Refined Authentication by user, group, and granted permissions</li>
+                <li class="list-group-item">A Drag and Drop Menu Builder</li>
+                <li class="list-group-item">A Mobile First Template System built on Bootstrap 3.0</li>
+                <li class="list-group-item">A Simple to Implement jQuery DataTables Library and Functions</li>
+            </ul>
+            <p>CIAUTH is a work in progress and as the need for new features arise they will be added.</p>
+        </div>
+    </div>
+</div>
