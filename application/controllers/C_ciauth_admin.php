@@ -38,7 +38,7 @@ class C_ciauth_admin extends CI_Controller {
         $nav_admin->db_fields = array('id' => 'id', 'parent' => 'parent');
         
         $nav_admin_elements = $this->M_ciauth_nav->get_menus();
-        $nav_admin_menu = $nav_admin->walk($nav_admin_elements, 10);
+        $nav_admin_menu = $nav_admin->walk($nav_admin_elements, 10); 
         
         $data['nav_menu'] = $nav_menu;
         $data['nav_admin_menu'] = $nav_admin_menu;

@@ -1,10 +1,10 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
-<!-- Google Maps API -->
-<script src="//maps.google.com/maps/api/js?sensor=true"></script>
 
 <!-- Ciauth Demo js -->
 <script src="/js/ciauth_demo.js"></script>
 
+<!-- Google Maps API -->
+<script src="//maps.google.com/maps/api/js?sensor=true"></script>
 
 <!-- first section - Home -->
 <div id="home" class="home">

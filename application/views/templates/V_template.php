@@ -20,9 +20,15 @@
         
         <!-- Latest compiled and minified SweetAlert -->
         <script src="http://www.ciauth.com/js/sweetalert.min.js"></script>
+        
+        <!-- Recaptcha api -->
+        <script src='https://www.google.com/recaptcha/api.js'></script>
        
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+         
+        <!-- Ciauth Styles for demo screens -->
+        <link rel="stylesheet" href="http://www.ciauth.com/css/ciauth_demo.css">
 
         <!-- Optional theme -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
@@ -35,9 +41,6 @@
         
         <!-- Smart menus Styles for demo screens -->
         <link href='http://www.ciauth.com/css/sm-core-css.css' rel='stylesheet' type='text/css' />
-
-        <!-- Ciauth Styles for demo screens -->
-        <link rel="stylesheet" href="http://www.ciauth.com/css/ciauth_demo.css">
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
@@ -62,10 +65,19 @@
                         <?php echo $nav_menu ?>
                     </ul>
                     <ul id="main-menu" class="nav navbar-nav navbar-right">
-                        <li><a href="login">Login</a></li>
-                        <li><a href="register">Register</a></li>
+                        <?php if ($this->ciauth->is_logged_in()){
+                            $userdata = $this->ciauth->get_user_data();
+                            
+                            echo "<li class=\"nav-welcome\"><h5>Welcome " . $userdata->username . "</h5></li>";
+                            echo "<li>&nbsp;</li>";
+                            echo "<li><a href=\"logout\">Logout</a></li>";
+                        }else{
+                            echo "<li><a href=\"login\">Login</a></li>";
+                            echo "<li><a href=\"register\">Register</a></li>";
+                        }?>
+                        
                     </ul>
-                </div><!--/.nav-collapse -->
+                </div>
             </div>
         </nav>
 

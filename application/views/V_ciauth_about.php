@@ -1,11 +1,12 @@
 <?php
+
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 /*
  * Name: ciauth
- * File: V_login.php
- * Path: views/ciauth/V_login.php
+ * File: V_ciauth_about.php
+ * Path: views/V_ciauth_about.php
  * Author: Glen Barnhardt
  * Company: Barnhardt Enterprises, Inc.
  * Email: glen@barnhardtenterprises.com
@@ -28,8 +29,4 @@ if (!defined('BASEPATH'))
  * limitations under the License.
  */
 ?>
-<link href="/css/ciauth_signin.css" rel="stylesheet">
-<?php if (!empty($ciauth_error)) {
-    echo $ciauth_error;
-} ?>
-<?php echo $registration_form; ?>
+<h3>About</h3>

@@ -63,7 +63,7 @@ class C_ciauth extends CI_Controller {
         $nav->db_fields = array('id' => 'id', 'parent' => 'parent');
 
         $nav_elements = $this->M_ciauth_nav->get_menus();
-        $nav_menu = $nav->walk($nav_elements, 2);
+        $nav_menu = $nav->walk($nav_elements, 10);
 
         $data['nav_menu'] = $nav_menu;
 
@@ -74,15 +74,7 @@ class C_ciauth extends CI_Controller {
         $this->ciauth_template->load('V_template', 'V_ciauth_basic', $data);
     }
 
-    /*
-     * Function: login
-     * Creates the login form to display
-     */
-
-    public function login() {
-        $data = array();
-        $login_form = $this->ciauth->get_login_form();
-
+    public function about() {
         /*
          * We can set the meta description, meta author, and title of each
          * page using the varibles. This is to give SEO value to our pages.
@@ -91,7 +83,7 @@ class C_ciauth extends CI_Controller {
         $meta_description = 'Ciauth - Authorization, Navigation, and Template libraries for CodeIgniter.';
         $meta_author = 'Glen Barnhardt, CEO Barnhardt Enterprises, Inc.';
         $data = array();
-        $data['title'] = "Ciauth Signup";
+        $data['title'] = "CIAUTH About";
         $data['meta_description'] = $meta_description;
         $data['meta_author'] = $meta_author;
 
@@ -105,10 +97,51 @@ class C_ciauth extends CI_Controller {
         $nav->db_fields = array('id' => 'id', 'parent' => 'parent');
 
         $nav_elements = $this->M_ciauth_nav->get_menus();
-        $nav_menu = $nav->walk($nav_elements, 2);
+        $nav_menu = $nav->walk($nav_elements, 10);
 
         $data['nav_menu'] = $nav_menu;
-        $data['login_form'] = $login_form;
+
+        /*
+         * load our V_template and the ciauth basic 
+         */
+
+        $this->ciauth_template->load('V_template', 'V_ciauth_about', $data);
+    }
+
+    /*
+     * Function: login
+     * Creates the login form to display
+     */
+
+    public function login() {
+        $data = array();
+        $data['login_form'] = $this->ciauth->get_login_form();
+
+        /*
+         * We can set the meta description, meta author, and title of each
+         * page using the varibles. This is to give SEO value to our pages.
+         */
+
+        $meta_description = 'Ciauth - Authorization, Navigation, and Template libraries for CodeIgniter.';
+        $meta_author = 'Glen Barnhardt, CEO Barnhardt Enterprises, Inc.';
+        
+        $data['title'] = "Ciauth Login";
+        $data['meta_description'] = $meta_description;
+        $data['meta_author'] = $meta_author;
+
+        /*
+         * Build the navigation
+         * We grab values from the database for our navigation. These can
+         * be changed in our admin interface under navigation.
+         */
+
+        $nav = new ciauth_nav();
+        $nav->db_fields = array('id' => 'id', 'parent' => 'parent');
+
+        $nav_elements = $this->M_ciauth_nav->get_menus();
+        $nav_menu = $nav->walk($nav_elements, 10);
+
+        $data['nav_menu'] = $nav_menu;
 
         $this->form_validation->set_rules('login_value', 'Username or Email', 'required');
         $this->form_validation->set_rules('password', 'Password', 'required', array('required' => 'You must provide a %s.'));
@@ -117,12 +150,12 @@ class C_ciauth extends CI_Controller {
             /*
              * load our V_template and the ciauth/V_login 
              */
-
+            echo "<br /><br /><br />here";
             $this->ciauth_template->load('V_template', 'ciauth/V_login', $data);
         } else {
             $login_value = $this->input->post('login_value');
-            $password = $this->input->post('keep_logged_in');
-            $remember_me = $this->input->post('');
+            $password = $this->input->post('password');
+            $remember_me = $this->input->post('keep_logged_in');
             if (!$this->ciauth->login($login_value, $password, $remember_me)) {
                 $data['ciauth_error'] = "The username/email or password was not found";
                 /*
@@ -133,6 +166,96 @@ class C_ciauth extends CI_Controller {
             } else {
                 redirect('c_ciauth/index/');
             }
+        }
+    }
+
+    /*
+     * Function: register
+     * Creates the registration form to display
+     */
+
+    public function register() {
+        $data = array();
+        $registration_form = $this->ciauth->get_registration_form();
+
+        /*
+         * We can set the meta description, meta author, and title of each
+         * page using the varibles. This is to give SEO value to our pages.
+         */
+
+        $meta_description = 'Ciauth - Authorization, Navigation, and Template libraries for CodeIgniter.';
+        $meta_author = 'Glen Barnhardt, CEO Barnhardt Enterprises, Inc.';
+        $data = array();
+        $data['title'] = "Ciauth Register";
+        $data['meta_description'] = $meta_description;
+        $data['meta_author'] = $meta_author;
+
+        /*
+         * Build the navigation
+         * We grab values from the database for our navigation. These can
+         * be changed in our admin interface under navigation.
+         */
+
+        $nav = new ciauth_nav();
+        $nav->db_fields = array('id' => 'id', 'parent' => 'parent');
+
+        $nav_elements = $this->M_ciauth_nav->get_menus();
+        $nav_menu = $nav->walk($nav_elements, 10);
+
+        $data['nav_menu'] = $nav_menu;
+        $data['registration_form'] = $registration_form;
+
+        $this->form_validation->set_rules('email_value', 'Email', 'required');
+        $this->form_validation->set_rules('username_value', 'Username', 'required');
+        $this->form_validation->set_rules('password', 'Password', 'required', array('required' => 'You must provide a %s.'));
+        $this->form_validation->set_rules('confirm-password', 'Confirm Password', 'required', array('required' => 'You must provide a %s.'));
+        $this->form_validation->set_rules('g-recaptcha-response', 'Captcha', 'callback_recaptcha');
+
+
+        if ($this->form_validation->run() == FALSE) {
+            /*
+             * load our V_template and the ciauth/V_login 
+             */
+
+            $this->ciauth_template->load('V_template', 'ciauth/V_registration', $data);
+        } else {
+            $query_data = array();
+            $query_data["email"] = $this->input->post('email_value');
+            $query_data["username"] = $this->input->post('username_value');
+            $query_data["password"] = $this->input->post('password');
+
+            if (!$this->ciauth->register($query_data)) {
+                $data['ciauth_error'] = "There was an error with your registration";
+                /*
+                 * load our V_template and the ciauth basic 
+                 */
+
+                $this->ciauth_template->load('V_template', 'ciauth/V_registration', $data);
+            } else {
+                redirect('c_ciauth/index/');
+            }
+        }
+    }
+
+    public function recaptcha($str = '') {
+        $google_url = "https://www.google.com/recaptcha/api/siteverify";
+        $secret = $this->config->item('recaptcha_secret');
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $url = $google_url . "?secret=" . $secret . "&response=" . $str . "&remoteip=" . $ip;
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 10);
+        curl_setopt($curl, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.2.16) Gecko/20110319 Firefox/3.6.16");
+        $res = curl_exec($curl);
+        curl_close($curl);
+        $res = json_decode($res, true);
+        //reCaptcha success check
+        if ($res['success']) {
+            return TRUE;
+        } else {
+            $this->form_validation->set_message('recaptcha', 'The CAPTCHA field is telling me that you are a robot. Would you like to give it another try?');
+            return FALSE;
         }
     }
 
@@ -161,7 +284,7 @@ class C_ciauth extends CI_Controller {
             $nav->db_fields = array('id' => 'id', 'parent' => 'parent');
 
             $nav_elements = $this->M_ciauth_nav->get_menus();
-            $nav_menu = $nav->walk($nav_elements, 2);
+            $nav_menu = $nav->walk($nav_elements, 10);
 
             $data['error'] = validation_errors();
             $data['nav_menu'] = $nav_menu;
@@ -200,7 +323,7 @@ class C_ciauth extends CI_Controller {
                 $nav->db_fields = array('id' => 'id', 'parent' => 'parent');
 
                 $nav_elements = $this->M_ciauth_nav->get_menus();
-                $nav_menu = $nav->walk($nav_elements, 2);
+                $nav_menu = $nav->walk($nav_elements, 10);
 
                 $data['error'] = validation_errors();
                 $data['nav_menu'] = $nav_menu;
@@ -249,7 +372,7 @@ class C_ciauth extends CI_Controller {
             $nav->db_fields = array('id' => 'id', 'parent' => 'parent');
 
             $nav_elements = $this->M_ciauth_nav->get_menus();
-            $nav_menu = $nav->walk($nav_elements, 2);
+            $nav_menu = $nav->walk($nav_elements, 10);
 
             $data['error'] = validation_errors();
             $data['nav_menu'] = $nav_menu;

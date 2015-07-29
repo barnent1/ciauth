@@ -291,194 +291,77 @@ class Ciauth {
      * This function creates a registration form that can be displayed on a page.
      */
 
-    function get_registration_form() {
-        $registration_form = form_open('');
-        # firstname value field
-        $options = array(
-            'name' => 'firstname',
-            'id' => 'firstname',
-            'class' => 'form_field',
-            'size' => '30'
-        );
-        $registration_form .= form_error('firstname');
-        $registration_form .= form_label('First Name: ', 'firstname');
-        $registration_form .= form_input($options);
+    public function get_registration_form() {
 
-        # lastname value field
-        $options = array(
-            'name' => 'lastname',
-            'id' => 'lastname',
-            'class' => 'form_field',
-            'size' => '30'
-        );
-        $registration_form .= form_error('lastname');
-        $registration_form .= form_label('Last Name: ', 'lastname');
-        $registration_form .= form_input($options);
+        $registration_form = "<div class=\"container\">";
+        $attributes = array('class' => 'form-register');
+        $registration_form .= form_open('', $attributes);
+        $registration_form .= "<h2 class=\"form-register-heading\">Please Register</h2>";
 
         # email value field
         $options = array(
-            'name' => 'email',
-            'id' => 'email',
-            'class' => 'form_field',
-            'size' => '30'
-        );
-        $registration_form .= form_error('email');
-        $registration_form .= form_label('Email: ', 'email');
-        $registration_form .= form_input($options);
-
-        # address1 value field
-        $options = array(
-            'name' => 'address1',
-            'id' => 'address1',
-            'class' => 'form_field',
-            'size' => '30'
-        );
-        $registration_form .= form_error('address1');
-        $registration_form .= form_label('Address: ', 'address1');
-        $registration_form .= form_input($options);
-
-        # address2 value field
-        $options = array(
-            'name' => 'address2',
-            'id' => 'address2',
-            'class' => 'form_field',
-            'size' => '30'
-        );
-        $registration_form .= form_error('address2');
-        $registration_form .= form_label('Apt/Suite/PO: ', 'address2');
-        $registration_form .= form_input($options);
-
-        # city value field
-        $options = array(
-            'name' => 'city',
-            'id' => 'city',
-            'class' => 'form_field',
-            'size' => '30'
-        );
-        $registration_form .= form_error('city');
-        $registration_form .= form_label('City: ', 'city');
-        $registration_form .= form_input($options);
-
-        # state value field
-
-        $options = array(
-            'AL' => 'Alabama',
-            'AK' => 'Alaska',
-            'AZ' => 'Arizona',
-            'AR' => 'Arkansas',
-            'CA' => 'California',
-            'CD' => 'Colorado',
-            'CT' => 'Connecticut',
-            'DE' => 'Delaware',
-            'DC' => 'District Of Columbia',
-            'FL' => 'Florida',
-            'GA' => 'Georgia',
-            'HI' => 'Hawaii',
-            'ID' => 'Idaho',
-            'IL' => 'Illinois',
-            'IN' => 'Indiana',
-            'IA' => 'Iowa',
-            'KS' => 'Kansas',
-            'KY' => 'Kentucky',
-            'LA' => 'Louisiana',
-            'ME' => 'Maine',
-            'MD' => 'Maryland',
-            'MA' => 'Massachusetts',
-            'MI' => 'Michigan',
-            'MN' => 'Minnesota',
-            'MS' => 'Mississippi',
-            'MO' => 'Missouri',
-            'MT' => 'Montana',
-            'NE' => 'Nebraska',
-            'NV' => 'Nevada',
-            'NH' => 'New Hampshire',
-            'NJ' => 'New Jersey',
-            'NM' => 'New Mexico',
-            'NY' => 'New York',
-            'NC' => 'North Carolina',
-            'ND' => 'North Dakota',
-            'OH' => 'Ohio',
-            'OK' => 'Oklahoma',
-            'OR' => 'Oregon',
-            'PA' => 'Pennsylvania',
-            'RI' => 'Rhode Island',
-            'SC' => 'South Carolina',
-            'SD' => 'South Dakota',
-            'TN' => 'Tennessee',
-            'TX' => 'Texas',
-            'UT' => 'Utah',
-            'VT' => 'Vermont',
-            'VA' => 'Virginia',
-            'WA' => 'Washington',
-            'WV' => 'West Virginia',
-            'WI' => 'Wisconsin',
-            'WY' => 'Wyoming'
+            'name' => 'email_value',
+            'type' => 'email',
+            'id' => 'email_value',
+            'class' => 'form-control',
+            'placeholder' => 'Email Address',
+            'size' => '25'
         );
 
-        $extra = array(
-            'name' => 'state',
-            'id' => 'state',
-        );
-        $registration_form .= form_error('state');
-        $registration_form .= form_label('State: ', 'state');
-        $registration_form .= form_dropdown('state', $options, '', $extra);
-
-        # zipcode value field
-        $options = array(
-            'name' => 'zipcode',
-            'id' => 'zipcode',
-            'class' => 'form_field',
-            'size' => '30'
-        );
-        $registration_form .= form_error('zipcode');
-        $registration_form .= form_label('Zipcode: ', 'zipcode');
+        $registration_form .= form_error('email_value');
         $registration_form .= form_input($options);
 
         # username value field
-        /* $options = array(
-          'name' => 'username',
-          'id' => 'username',
-          'class' => 'form_field',
-          'size' => '30'
-          ); */
-        //$registration_form .= form_error('username');
-        //$registration_form .= form_label('Username: ', 'username');
-        //$registration_form .= form_input($options);
+        $options = array(
+            'name' => 'username_value',
+            'type' => 'text',
+            'id' => 'username_value',
+            'class' => 'form-control',
+            'placeholder' => 'User Name',
+            'size' => '25'
+        );
+
+        $registration_form .= form_error('username_value');
+        $registration_form .= form_input($options);
+
         # password field
         $options = array(
             'name' => 'password',
             'id' => 'password',
-            'class' => 'form_field',
-            'size' => '20'
+            'class' => 'form-control',
+            'placeholder' => 'Password',
+            'size' => '25'
         );
 
         $registration_form .= form_error('password');
-        $registration_form .= form_label('Password: ', 'password');
         $registration_form .= form_password($options);
-
-        # conf password field
+        
+        # confirm password field
         $options = array(
-            'name' => 'conf_password',
-            'id' => 'conf_password',
-            'class' => 'form_field',
-            'size' => '20'
+            'name' => 'confirm-password',
+            'id' => 'confirm-password',
+            'class' => 'form-control',
+            'placeholder' => 'Confirm Password',
+            'size' => '25'
         );
 
-        $registration_form .= form_error('conf_password');
-        $registration_form .= form_label('Confirm Password: ', 'conf_password');
+        $registration_form .= form_error('confirm-password');
         $registration_form .= form_password($options);
+        $registration_form .= "<div class=\"g-recaptcha\" data-sitekey=\"" . $this->CI->config->item('recaptcha_sitekey') . "\"></div>";
 
         $registration_form .= "<div id='message'></div>";
-        $registration_form .= "<div id='lower'>";
+        $registration_form .= "<p>&nbsp;</p>";
 
         $options = array(
             'name' => 'submit',
-            'id' => 'button',
-            'value' => 'Register',
-            'class' => 'button'
+            'id' => 'login_button',
+            'class' => 'btn btn-lg btn-primary btn-block',
+            'value' => 'submit',
+            'type' => 'submit',
+            'content' => 'Register'
         );
 
-        $registration_form .= form_submit($options);
+        $registration_form .= form_button($options);
         $registration_form .= form_close();
         $registration_form .= "</div>";
 
@@ -507,14 +390,7 @@ class Ciauth {
         //ensure the email is unique
         if ($this->check_user_exists($query_data['email'], $query_data['username'])) {
             $data = array(
-                "firstname" => $query_data['firstname'],
-                "lastname" => $query_data['lastname'],
-                "address1" => $query_data['address1'],
-                "address2" => $query_data['address2'],
-                "city" => $query_data['city'],
-                "state" => $query_data['state'],
-                "zipcode" => $query_data['zipcode'],
-                "username" => $query_data['email'],
+                "username" => $query_data['username'],
                 "email" => $query_data['email'],
                 "password" => $password
             );
