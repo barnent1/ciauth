@@ -13,6 +13,6 @@ Copy the the contents of each folder to the corresponding folder. For example mo
 
 use the sql script to create the neccessary tables. 
 
-Add items to the ciauth_nav table to use the nav component. 
+Add a user to the user_accounts table and give it admin prviliges. Login to the system and use the navigation builder to build your navigation menus.
 
 Look at the example views and demo controllers to see how it is used. Detailed Documentation is coming soon.
